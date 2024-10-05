@@ -10,20 +10,21 @@ import { eq } from "drizzle-orm";
 import { ArrowRight, LogIn } from "lucide-react";
 import Link from "next/link";
 
-
 export default async function Home() {
-  const {userId} = await auth();
-  const isAuth = !!userId
-  const isPro = await checkSubscription()
+    const { userId } = await auth();
+    const isAuth = !!userId;
+    const isPro = await checkSubscription();
 
-
-  let firstChat;
-  if (userId) {
-    firstChat = await db.select().from(chats).where(eq(chats.userId, userId));
-    if (firstChat) {
-      firstChat = firstChat[0];
+    let firstChat;
+    if (userId) {
+        firstChat = await db
+            .select()
+            .from(chats)
+            .where(eq(chats.userId, userId));
+        if (firstChat) {
+            firstChat = firstChat[0];
+        }
     }
-  }
 
     return (
         <div className="w-screen min-h-screen bg-gradient-to-r from-cyan-500 to-blue-500">
@@ -33,38 +34,43 @@ export default async function Home() {
                         <h1 className="mr-3 text-5xl font-semibold">
                             Chat with any PDF
                         </h1>
-                        <UserButton afterSignOutUrl="/" />                        
+                        <UserButton afterSignOutUrl="/" />
                     </div>
 
-                    <div className="flex mt-2">
-                      {isAuth && firstChat && 
-                      <Link href={`/chat/${firstChat.id}`}>
-                        <Button>Go to Chats<ArrowRight className="ml-2" /></Button>
-                      </Link>}
-                      <div className="ml-3">
-                        <SubscriptionButton isPro={isPro} />
-                      </div>
+                    <div className="flex mt-4">
+                        {isAuth && firstChat && (
+                            <Link href={`/chat/${firstChat.id}`}>
+                                <Button>
+                                    Go to Chats
+                                    <ArrowRight className="ml-2" />
+                                </Button>
+                            </Link>
+                        )}
+                        <div className="ml-3">
+                            <SubscriptionButton isPro={isPro} />
+                        </div>
                     </div>
 
-                    <p className="max-w-xl mt-1 text-lg text-slate-600">
-            Join millions of students, researchers and professionals to instantly
-            answer questions and understand research with AI
-          </p>
+                    <p className="max-w-xl mt-4 text-lg text-slate-50">
+                        Unlock the power of AI for everyone—students,
+                        professionals, and curious minds alike. Join millions
+                        who use AI daily to answer questions, explore new
+                        topics, and make smarter decisions in life and work.
+                    </p>
 
-          <div className="w-full mt-4">
-            {isAuth ? (
-              <FileUpload />
-              // <h1>FileUpload</h1>
-            ) : (
-              <Link href="/sign-in">
-                <Button>
-                  Login to get Started!
-                  <LogIn className="w-4 h-4 ml-2" />
-                </Button>
-              </Link>
-            )}
-          </div>
-
+                    <div className="w-full mt-4">
+                        {isAuth ? (
+                            <FileUpload />
+                        ) : (
+                            // <h1>FileUpload</h1>
+                            <Link href="/sign-in">
+                                <Button>
+                                    Login to get Started!
+                                    <LogIn className="w-4 h-4 ml-2" />
+                                </Button>
+                            </Link>
+                        )}
+                    </div>
                 </div>
             </div>
         </div>
