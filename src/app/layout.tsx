@@ -18,11 +18,16 @@ export default function RootLayout({
     return (
         <ClerkProvider>
             <Providers>
-            <html lang="en">
-                <body className={inter.className}>
-                        {children}
-                </body>
-            </html>
+                <html lang="en">
+                    <head>
+                        <link
+                            rel="icon"
+                            href="/icon.ico"
+                            type="image/x-icon"
+                        />
+                    </head>
+                    <body className={inter.className}>{children}</body>
+                </html>
             </Providers>
         </ClerkProvider>
     );
